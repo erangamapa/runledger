@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package runledger.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/erangamapa/runledger/gen/runledger/v1;runledgerv1";
+
+// Ingest is the write side. Agents push finished spans here, the read side
+// is the http api.
+service Ingest {
+  // client streaming so a busy worker can keep one stream open and batch
+  rpc PushSpans(stream Span) returns (PushSummary);
+}
+
+enum SpanKind {
+  SPAN_KIND_UNSPECIFIED = 0;
+  // the root span of a run, its status becomes the run status
+  SPAN_KIND_RUN = 1;
+  SPAN_KIND_LLM = 2;
+  SPAN_KIND_TOOL = 3;
+  // a human approval or interrupt gate, latency here is people not machines
+  SPAN_KIND_GATE = 4;
+}
+
+enum SpanStatus {
+  SPAN_STATUS_UNSPECIFIED = 0;
+  SPAN_STATUS_OK = 1;
+  SPAN_STATUS_ERROR = 2;
+  SPAN_STATUS_INTERRUPTED = 3;
+}
+
+message Span {
+  string run_id = 1;
+  string span_id = 2;
+  // empty for the root span
+  string parent_id = 3;
+  SpanKind kind = 4;
+  string name = 5;
+  string agent = 6;
+  string tenant = 7;
+  // only for llm spans, the backend that actually served the call
+  string model = 8;
+  int32 input_tokens = 9;
+  int32 output_tokens = 10;
+  google.protobuf.Timestamp started_at = 11;
+  google.protobuf.Timestamp ended_at = 12;
+  SpanStatus status = 13;
+  string error = 14;
+  map<string, string> attrs = 15;
+}
+
+message Rejected {
+  string span_id = 1;
+  string reason = 2;
+}
+
+message PushSummary {
+  int32 accepted = 1;
+  // duplicates are accepted silently, a span id is only stored once
+  int32 duplicates = 2;
+  repeated Rejected rejected = 3;
+}
