@@ -261,6 +261,8 @@ func (h *handler) ingest(c *gin.Context) {
 			bad = append(bad, rejected{Index: i, SpanID: sp.SpanID, Reason: err.Error()})
 			continue
 		}
+		// same rule as grpc, cost is ours to compute
+		sp.CostMicros = 0
 		if sp.Kind == model.KindLLM {
 			sp.CostMicros = h.prices.CostMicros(sp.Model, sp.InputTokens, sp.OutputTokens)
 		}
