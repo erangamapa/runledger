@@ -1,0 +1,10 @@
+# dollars per million tokens, checked against the provider pages when I last touched this
+claude-opus-4-1: {input: 15.00, output: 75.00}
+claude-sonnet-4-5: {input: 3.00, output: 15.00}
+claude-haiku-4-5: {input: 1.00, output: 5.00}
+gpt-4o: {input: 2.50, output: 10.00}
+gpt-4o-mini: {input: 0.15, output: 0.60}
+# self hosted on the gpu pool
+erangamapa/tweet-outcome-classifier-qwen2.5-1.5b-qlora: {input: 0, output: 0}
+erangamapa/bet-brief-drafter-llama-3.1-8b-qlora: {input: 0, output: 0}
+erangamapa/intent-router-gemma-2-2b-lora: {input: 0, output: 0}
