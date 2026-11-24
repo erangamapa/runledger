@@ -88,7 +88,8 @@ func TestIngestThenRead(t *testing.T) {
 		t.Fatalf("get run %d", w.Code)
 	}
 	run := body["run"].(map[string]any)
-	if run["status"] != "ok" {
+	// client sent a silly cost, the ledger priced it from the table instead
+	if run["cost_micros"].(float64) != 6000 || run["status"] != "ok" {
 		t.Fatalf("run %v", run)
 	}
 	tree := body["tree"].(map[string]any)
