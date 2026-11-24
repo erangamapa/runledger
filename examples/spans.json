@@ -1,0 +1,41 @@
+[
+  {
+    "run_id": "run-7f3a",
+    "span_id": "run-7f3a-plan",
+    "parent_id": "run-7f3a-root",
+    "kind": "llm",
+    "name": "plan preview",
+    "agent": "analyst",
+    "tenant": "pulse-agents",
+    "model": "claude-sonnet-4-5",
+    "input_tokens": 1840,
+    "output_tokens": 312,
+    "started_at": "2026-10-03T18:02:11Z",
+    "ended_at": "2026-10-03T18:02:14Z",
+    "status": "ok"
+  },
+  {
+    "run_id": "run-7f3a",
+    "span_id": "run-7f3a-odds",
+    "parent_id": "run-7f3a-plan",
+    "kind": "tool",
+    "name": "odds lookup",
+    "agent": "analyst",
+    "tenant": "pulse-agents",
+    "started_at": "2026-10-03T18:02:14Z",
+    "ended_at": "2026-10-03T18:02:14.4Z",
+    "status": "ok",
+    "attrs": {"market": "match winner"}
+  },
+  {
+    "run_id": "run-7f3a",
+    "span_id": "run-7f3a-root",
+    "kind": "run",
+    "name": "match preview",
+    "agent": "analyst",
+    "tenant": "pulse-agents",
+    "started_at": "2026-10-03T18:02:10Z",
+    "ended_at": "2026-10-03T18:02:16Z",
+    "status": "ok"
+  }
+]
