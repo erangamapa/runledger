@@ -1,6 +1,6 @@
 # runledger
 
-A ledger for agent runs. Every run my agents make ends up here as a tree of spans (the run itself, each model call, each tool call, each human approval gate) with tokens and cost attached, and a small http api answers the questions I actually ask about them.
+A ledger for agent runs, for anyone running LLM agents who needs to answer what a run did and what it cost. I built it for a sportsbook agent platform. Every run my agents make ends up here as a tree of spans (the run itself, each model call, each tool call, each human approval gate) with tokens and cost attached, and a small http api answers the questions I actually ask about them.
 
 - what did this run do, step by step, and where did the time go
 - which agent or model is eating the budget this week
@@ -24,8 +24,10 @@ curl -X POST -H "Authorization: Bearer dev" -H "Content-Type: application/json" 
   --data @examples/spans.json localhost:8080/v1/spans
 
 curl -H "Authorization: Bearer dev" localhost:8080/v1/runs/run-7f3a
-curl -H "Authorization: Bearer dev" "localhost:8080/v1/rollups?group=model&since=2026-10-03T00:00:00Z"
+curl -H "Authorization: Bearer dev" "localhost:8080/v1/rollups?group=model"
 ```
+
+Rollups look back at most 31 days. The example spans are dated 2026-10-03, so once they are older than that the rollup is empty and a `since` before the window is rejected with `bad_window`. Re-date the timestamps in `examples/spans.json` or push your own spans to see numbers.
 
 ## Http api
 
